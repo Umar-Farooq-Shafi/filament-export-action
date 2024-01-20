@@ -4,8 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Exports\UserExporter;
 use App\Filament\Resources\PatientResource\Pages;
-use App\Filament\Resources\PatientResource\RelationManagers;
-use App\Models\Patient;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PatientResource extends Resource
 {
-    protected static ?string $model = Patient::class;
+    protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -33,7 +32,7 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
             ])
             ->filters([
                 //
@@ -48,6 +47,7 @@ class PatientResource extends Resource
                         ->label('Export')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->color('primary')
+                        ->chunkSize(250)
                         ->modalHidden(true)
                         ->exporter(UserExporter::class),
                 ]),
